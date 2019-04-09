@@ -1,4 +1,4 @@
-<?php
+<?php  
 
 namespace App\Http\Controllers\API;
 
@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\User; 
 use Illuminate\Support\Facades\Auth; 
 use Validator;
-
 class UserController extends Controller
 {
     public $successStatus = 200;
@@ -40,8 +39,8 @@ class UserController extends Controller
             'mobile_no'=>'required|min:10|numeric', 
             'password' => 'required|min:8', 
             'c_password' => 'required|same:password',
-            'activated' => 'required',
-            'role_id' => 'required'
+            // 'activated' => 'required',
+            // 'role_id' => 'required'
         ]);
 		if ($validator->fails()) { 
             return response()->json(['error'=>$validator->errors()], 401);            
@@ -68,7 +67,7 @@ class UserController extends Controller
     public function userdata()
     {
     	$user = User::all();
-        return response()->json(['success' => $user], $this-> successStatus); 
+        return response()->json(['success' => $user[0]->post], $this-> successStatus); 
 
     }
 }

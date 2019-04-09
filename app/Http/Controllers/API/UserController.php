@@ -20,7 +20,7 @@ class UserController extends Controller
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
             $user = Auth::user(); 
             $success['token'] =  $user->createToken('MyApp')-> accessToken; 
-            return response()->json(['success' => $success], $this-> successStatus); 
+            return response()->json(['success' => $success,'user' => $user], $this-> successStatus); 
         } 
         else{ 
             return response()->json(['error'=>'Unauthorised'], 401); 
@@ -36,7 +36,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [ 
             'first_name' => 'required|regex:/(^([a-zA-z]+)(\d+)?$)/u|min:3',
             'last_name' => 'required|regex:/(^([a-zA-z]+)(\d+)?$)/u|min:3', 
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'mobile_no'=>'required|min:10|numeric', 
             'password' => 'required|min:8', 
             'c_password' => 'required|same:password',
@@ -65,10 +65,27 @@ class UserController extends Controller
         return response()->json(['success' => $user], $this-> successStatus); 
     }
 
-    public function userdata()
-    {
-    	$user = User::all();
-        return response()->json(['success' => $user], $this-> successStatus); 
+    // public function userdata()
+    // {
+    // 	$user = new User();
+    //     return response()->json(['list'=>$user->findfollower()], $this-> successStatus); 
+    // }
 
+    // public function userdata1()
+    // {
+    //     $user = new User();
+    //     return response()->json(['data' => $user->followto()], $this-> successStatus); 
+    // }
+
+    public function userFollowers($id)  
+    {
+        $user = new User();
+        return response()->json(['list'=>$user->findfollower($id),'total' => $user->followerscount($id)], $this-> successStatus); 
+    }
+
+    public function userFollow($id)  
+    {
+        $user = new User();
+        return response()->json(['list'=>$user->followto($id),'total' => $user->followcount($id)], $this-> successStatus); 
     }
 }

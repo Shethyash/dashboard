@@ -75,10 +75,9 @@ class User extends Authenticatable
         return $this->hasMany('App\Model\Follower', 'follow_from', 'id');
     }
 
-    // public function portfolio(){
-    //     return $this->hasOne('App\Model\Portfolio', 'user_id', 'id');
-    //     // return $this->hasMany(Post::class, 'user_id', 'id');
-    // }
+    public function portfolio(){
+        return $this->hasOne('App\Model\Portfolio', 'user_id', 'id');
+    }
 
     public function role(){
         return $this->hasOne('App\Model\Role', 'role_id', 'role_id');

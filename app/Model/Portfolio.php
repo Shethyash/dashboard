@@ -20,4 +20,9 @@ class Portfolio extends Model
     	'cat_id' => 'required',
     	// 'birth_date' => 'required|date'
     ];
+
+    public function address()
+    {
+        return $this->hasOne('App\Model\Address','a_id','a_id');
+    }
 }

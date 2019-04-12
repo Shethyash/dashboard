@@ -21,16 +21,13 @@ class Post extends Model
 
     public function comment(){
         return $this->hasMany('App\Model\Comment', 'post_id', 'post_id');
-        // return $this->hasMany(Post::class, 'user_id', 'id');
     }
 
     public function postfile(){
         return $this->hasMany('App\Model\Postfile', 'post_id', 'post_id');
-        // return $this->hasMany(Post::class, 'user_id', 'id');
     }
 
     public function like(){
         return $this->hasMany('App\Model\Like', 'post_id', 'post_id');
-        // return $this->hasMany(Post::class, 'user_id', 'id');
     }
 }

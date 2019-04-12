@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Model\Portfolio;
 use App\Model\Address;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -28,12 +29,6 @@ class PortfolioController extends Controller
         $new_pf = Portfolio::create($data);
 
         return response()->json(['address' => $new_address,'pf' => $new_pf], 200);
-
-        // return response()->json(['address' => $data], 200);
     }
 
-    public function show($id)
-    {
-    	
-    }
 }

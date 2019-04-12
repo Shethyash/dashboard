@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\User; 
 use Illuminate\Support\Facades\Auth; 
 use Validator;
+
 class UserController extends Controller
 {
     public $successStatus = 200;
@@ -78,13 +79,23 @@ class UserController extends Controller
 
     public function userFollowers($id)  
     {
-        $user = new User();
-        return response()->json(['list'=>$user->findfollower($id),'total' => $user->followerscount($id)], $this-> successStatus); 
+        $user = User::where('id',$id)->with('followers')->withCount('followers')->get();
+        // return $user;
+        return response()->json(['data'=>$user], 200); 
     }
 
     public function userFollow($id)  
     {
-        $user = new User();
-        return response()->json(['list'=>$user->followto($id),'total' => $user->followcount($id)], $this-> successStatus); 
+        $user = User::where('id',$id)->with('follow')->withCount('follow')->get();
+        // return $user;
+        return response()->json(['data'=>$user], 200); 
+    }
+
+    public function showpf($id)
+    {
+        $data = User::where('id',$id)
+                ->with(['portfolio.address'])
+                ->get();
+        return $data;
     }
 }

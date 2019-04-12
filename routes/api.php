@@ -35,3 +35,4 @@ Route::get('showpost/{id}','API\PostController@showuserpost');
 Route::get('showuserfollowpost/{id}','API\PostController@showuserfollowpost');
 Route::get('userfollowers/{id}','API\UserController@userFollowers');
 Route::get('userfollowto/{id}','API\UserController@userFollow');
+Route::get('showpf/{id}', 'API\UserController@showpf');

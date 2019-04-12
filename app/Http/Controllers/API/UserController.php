@@ -65,18 +65,6 @@ class UserController extends Controller
         return response()->json(['success' => $user], $this-> successStatus); 
     }
 
-    // public function userdata()
-    // {
-    // 	$user = new User();
-    //     return response()->json(['list'=>$user->findfollower()], $this-> successStatus); 
-    // }
-
-    // public function userdata1()
-    // {
-    //     $user = new User();
-    //     return response()->json(['data' => $user->followto()], $this-> successStatus); 
-    // }
-
     public function userFollowers($id)  
     {
         $user = User::where('id',$id)->with('followers')->withCount('followers')->get();

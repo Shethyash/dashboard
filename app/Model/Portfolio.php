@@ -25,4 +25,9 @@ class Portfolio extends Model
     {
         return $this->hasOne('App\Model\Address','a_id','a_id');
     }
+
+    public function userpics()
+    {
+        return $this->hasMany('App\Model\userpic','userpics_id','userpics_id');
+    }
 }

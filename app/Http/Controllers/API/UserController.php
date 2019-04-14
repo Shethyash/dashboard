@@ -19,8 +19,10 @@ class UserController extends Controller
     public function login(){ 
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
             $user = Auth::user(); 
-            $success['token'] =  $user->createToken('MyApp')-> accessToken; 
-            return response()->json(['success' => $success,'user' => $user], $this-> successStatus); 
+            $success['token'] =  $user->createToken('MyApp')-> accessToken;
+            return response()->json(['success' => $success,'user' => $user], $this-> successStatus);
+            // $data = User::where('id',$user->id)->with(['portfolio.address'])->get(); 
+            // return response()->json(['success' => $success,'user' => $data], $this-> successStatus);
         } 
         else{ 
             return response()->json(['error'=>'Unauthorised'], 401); 
@@ -51,7 +53,9 @@ class UserController extends Controller
         $user = User::create($input); 
         $success['token'] =  $user->createToken('MyApp')-> accessToken; 
         $success['first_name'] =  $user->first_name;
-	return response()->json(['success'=>$success,'user'=>$user], $this-> successStatus); 
+        return response()->json(['success'=>$success,'user'=>$user], $this-> successStatus); 
+        // $data = User::where('id',$user->id)->with(['portfolio.address'])->get();
+	    // return response()->json(['success'=>$success,'user'=>$data], $this-> successStatus);         
     }
 
 	/** 
@@ -61,8 +65,9 @@ class UserController extends Controller
      */ 
     public function details() 
     { 
-        $user = Auth::user(); 
-        return response()->json(['success' => $user], $this-> successStatus); 
+        $user = Auth::user();
+        $data = User::where('id',$user->id)->with(['portfolio.address'])->get(); 
+        return response()->json(['success' => $data], $this-> successStatus); 
     }
 
     public function userFollowers($id)  

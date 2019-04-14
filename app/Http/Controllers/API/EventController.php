@@ -34,7 +34,7 @@ class EventController extends Controller
 
     public function showevent($id)
     {
-    	$data = Event::where('user_id',$id)->with('address')->get();
+    	$data = Event::where('user_id',$id)->with('address')->orderBy('created_at','desc')->get();
     	return response()->json(['event' => $data], 403);
-    }
+    }	
 }

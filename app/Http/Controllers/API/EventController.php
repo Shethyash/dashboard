@@ -32,10 +32,9 @@ class EventController extends Controller
         return response()->json(['address' => $new_address,'event' => $data], 200);
     }
 
-    public function showevent()
+    public function showevent($id)
     {
-    	$user = Auth::user();
-    	$data = Event::where('user_id',$user->id)->with('address')->get();
+    	$data = Event::where('user_id',$id)->with('address')->get();
     	return response()->json(['event' => $data], 403);
     }
 }

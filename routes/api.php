@@ -24,8 +24,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 
 	Route::post('details', 'API\UserController@details');
 	Route::post('post/store', 'API\PostController@store');
-	Route::post('post/', 'API\PostController@store');
-	Route::get('event/show','API\EventController@show');
+	Route::get('event/show','API\EventController@showevent');
 
 });
 Route::post('addlike','API\LikeController@addlike');

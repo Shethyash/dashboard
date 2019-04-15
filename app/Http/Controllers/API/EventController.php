@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\API;
+use Carbon\Carbon;
 use Auth;
 use App\Model\Event;
 use App\Model\Address;
@@ -34,7 +35,33 @@ class EventController extends Controller
 
     public function showevent($id)
     {
-    	$data = Event::where('user_id',$id)->with('address')->orderBy('created_at','desc')->get();
+    	$data = Event::where('user_id',$id)
+    			->select('event_id','user_id','event_name','event_type','events.a_id','event_time','events.created_at','first_name','last_name','mobile_no','email','address_line1','address_line2','city','state','pin_code','country')
+    			->leftjoin('users','events.user_id','users.id')
+    			->leftjoin('addresses','events.a_id','addresses.a_id')
+    			->orderBy('events.created_at','desc')
+    			->get();
     	return response()->json(['event' => $data], 403);
     }	
+
+    public function participantlist($eventid)
+    {
+    	$data = Event::where('event_id',$eventid)
+    			->select('event_id','user_id','event_name','event_type','events.a_id','event_time','events.created_at','first_name','last_name','mobile_no','email','address_line1','address_line2','city','state','pin_code','country')
+    			->leftjoin('users','events.user_id','users.id')
+    			->leftjoin('addresses','events.a_id','addresses.a_id')
+    			->with(['participant'=>function($query){
+    				$query->leftjoin('users','participants.user_id','users.id');
+    			}])
+    			->withCount('participant')
+    			->get();
+    	return response()->json([$data]);
+    }
+
+    public function upcomingevent()
+    {
+    	$date = Carbon::now();
+    	$data = Event::all()->where('event_time','>',$date);
+    	return response()->json([$data]);
+    }
 }

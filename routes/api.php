@@ -37,5 +37,7 @@ Route::get('userfollowto/{id}','API\UserController@userFollow');
 Route::get('showpf/{id}', 'API\UserController@showpf');
 Route::post('event/register','API\EventController@register');
 Route::get('event/show/{id}','API\EventController@showevent');
+Route::get('event/participant/{id}','API\EventController@participantlist');
+Route::get('event/upcome','API\EventController@upcomingevent');
 Route::post('participant/store','API\ParticipantController@store');
 Route::post('participant/accept','API\ParticipantController@accept');

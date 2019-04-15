@@ -26,4 +26,14 @@ class Event extends Model
     {
     	return $this->hasOne('App\Model\Address','a_id','a_id');
     }
+
+    public function create()
+    {
+    	return $this->hasOne('App\User','id','user_id');
+    }
+
+    public function participant()
+    {
+    	return $this->hasMany('App\Model\Participant','event_id','event_id');
+    }
 }

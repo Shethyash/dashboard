@@ -18,4 +18,11 @@ class Participant extends Model
     	'user_id' => 'required',
     	'status' => 'required'
     ];
+
+    public function user()
+    {
+    	return $this->hasOne('App\User','id','user_id');
+    }
+
+    
 }

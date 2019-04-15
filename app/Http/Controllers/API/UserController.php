@@ -67,7 +67,7 @@ class UserController extends Controller
     { 
         $user = Auth::user();
         $data = User::where('id',$user->id)->with(['portfolio.address'])->get(); 
-        return response()->json(['success' => $data], $this-> successStatus); 
+        return response()->json(['success' => $data],200); 
     }
 
     public function userFollowers($id)  
@@ -87,7 +87,11 @@ class UserController extends Controller
     public function showpf($id)
     {
         $data = User::where('id',$id)
-                ->with(['portfolio.address'])
+                ->select('id','first_name','last_name','mobile_no','email','last_login','pf_id','portfolios.cat_id','portfolios.a_id','portfolios.userpic_id','profession','birth_date','achievements','address_line1','address_line2','city','state','pin_code','country')
+                ->leftjoin('portfolios','portfolios.user_id','users.id')
+                ->leftjoin('addresses','addresses.a_id','users.id')
+                ->leftjoin('categories','categories.cat_id','portfolios.cat_id')
+                // ->with(['portfolio.userpics'])
                 ->get();
         return $data;
     }

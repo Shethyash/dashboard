@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User; 
+use App\Model\Userpic;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
 
@@ -58,6 +59,11 @@ class UserController extends Controller
 	    // return response()->json(['success'=>$success,'user'=>$data], $this-> successStatus);         
     }
 
+    public function forgot_password(Request $request)
+    {
+        $email = $request->email;
+    }
+
 	/** 
      * details api 
      * 
@@ -89,10 +95,40 @@ class UserController extends Controller
         $data = User::where('id',$id)
                 ->select('id','first_name','last_name','mobile_no','email','last_login','pf_id','portfolios.cat_id','portfolios.a_id','portfolios.userpic_id','profession','birth_date','achievements','address_line1','address_line2','city','state','pin_code','country')
                 ->leftjoin('portfolios','portfolios.user_id','users.id')
+                // ->leftjoin('userpics','userpics.user_id','users.id')
                 ->leftjoin('addresses','addresses.a_id','users.id')
                 ->leftjoin('categories','categories.cat_id','portfolios.cat_id')
-                // ->with(['portfolio.userpics'])
+                ->with(['portfolio.userpics'])
                 ->get();
         return $data;
+    }
+
+    public function upload(Request $request)
+    {
+       $this->validate($request, [
+
+            'file' => 'required',
+            'file.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+
+        ]);
+        
+        if($request->hasfile('file'))
+         {
+            foreach($request->file('file') as $image)
+            {
+                $name=$image->getClientOriginalName();
+                $image->move(public_path().'/upload/profile', $name);  
+                $data = $name;  
+            }
+         }
+
+         $form= new Userpic();
+         $form->user_id=$request->user_id;
+         $form->status= $request->status;
+         $form->file=json_encode($data);
+         
+        $form->save();
+
+        return response()->json(['success', 'Your images has been successfully']);
     }
 }

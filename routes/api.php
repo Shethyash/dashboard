@@ -16,8 +16,16 @@ use Illuminate\Http\Request;
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-Route::get('udata','API\UserController@userdata');
-Route::get('udata1','API\UserController@userdata1');
+Route::group([    
+    'namespace' => 'Auth',    
+    'middleware' => 'api',    
+    'prefix' => 'password'
+], function () {    
+    Route::post('create', 'PasswordResetController@create');
+    Route::get('find/{token}', 'PasswordResetController@find');
+    Route::post('reset', 'PasswordResetController@reset');
+});
+
 Route::post('login', 'API\UserController@login');
 Route::post('register', 'API\UserController@register');
 Route::group(['middleware' => 'auth:api'], function(){
@@ -41,3 +49,4 @@ Route::get('event/participant/{id}','API\EventController@participantlist');
 Route::get('event/upcome','API\EventController@upcomingevent');
 Route::post('participant/store','API\ParticipantController@store');
 Route::post('participant/accept','API\ParticipantController@accept');
+Route::post('/upload','API\UserController@upload');

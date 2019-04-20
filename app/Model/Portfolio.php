@@ -28,6 +28,6 @@ class Portfolio extends Model
 
     public function userpics()
     {
-        return $this->hasMany('App\Model\Userpic','userpic_id','userpic_id');
+        return $this->hasMany('App\Model\Userpic','user_id','user_id');
     }
 }

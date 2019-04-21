@@ -38,6 +38,9 @@ Route::post('addlike','API\LikeController@addlike');
 Route::post('addfollow','API\FollowerController@addfollow');
 Route::post('addcmt','API\CommentController@addcmt');
 Route::post('addpf','API\PortfolioController@store');
+
+Route::get('gallary/{id}','API\UserpicsController@index');
+
 Route::get('showpost/{id}','API\PostController@showuserpost');
 Route::get('showuserfollowpost/{id}','API\PostController@showuserfollowpost');
 Route::get('userfollowers/{id}','API\UserController@userFollowers');

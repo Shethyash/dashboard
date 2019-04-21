@@ -46,6 +46,9 @@ Route::post('addcmt','API\CommentController@addcmt');
 // portfolio
 Route::post('addpf','API\PortfolioController@store');
 
+// userpics
+Route::get('gallary/{id}','API\UserpicsController@index');
+
 // post
 Route::get('showpost/{id}','API\PostController@showuserpost');
 Route::get('showuserfollowpost/{id}','API\PostController@showuserfollowpost');

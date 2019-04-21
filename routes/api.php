@@ -31,39 +31,23 @@ Route::post('register', 'API\UserController@register');
 Route::group(['middleware' => 'auth:api'], function(){
 
 	Route::post('details', 'API\UserController@details');
+	Route::post('post/store', 'API\PostController@store');
 
 });
-
-// likes
 Route::post('addlike','API\LikeController@addlike');
-
-// follower
 Route::post('addfollow','API\FollowerController@addfollow');
-
-// comment
 Route::post('addcmt','API\CommentController@addcmt');
-
-// portfolio
 Route::post('addpf','API\PortfolioController@store');
-
-// post
 Route::get('showpost/{id}','API\PostController@showuserpost');
 Route::get('showuserfollowpost/{id}','API\PostController@showuserfollowpost');
-Route::post('createpost','API\PostController@create');
-
-// user
 Route::get('userfollowers/{id}','API\UserController@userFollowers');
 Route::get('userfollowto/{id}','API\UserController@userFollow');
 Route::get('showpf/{id}', 'API\UserController@showpf');
-Route::post('/upload','API\UserController@upload');
-Route::post('updatepf','API\UserController@update');
-
-// event
 Route::post('event/register','API\EventController@register');
 Route::get('event/show/{id}','API\EventController@showevent');
 Route::get('event/participant/{id}','API\EventController@participantlist');
 Route::get('event/upcome','API\EventController@upcomingevent');
-
-// participant
 Route::post('participant/store','API\ParticipantController@store');
 Route::post('participant/accept','API\ParticipantController@accept');
+Route::post('/upload','API\UserController@upload');
+Route::post('createpost','API\PostController@create');

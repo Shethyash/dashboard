@@ -93,14 +93,13 @@ class UserController extends Controller
     public function showpf($id)
     {
         $data = User::where('id',$id)
-                ->select('id','first_name','last_name','mobile_no','email','last_login','pf_id','portfolios.cat_id','portfolios.a_id','portfolios.userpic_id','profession','birth_date','achievements','address_line1','address_line2','city','state','pin_code','country')
+                ->select('id','first_name','last_name','mobile_no','email','last_login','pf_id','portfolios.cat_id','portfolios.a_id','profession','birth_date','achievements','address_line1','address_line2','city','state','pin_code','country')
                 ->leftjoin('portfolios','portfolios.user_id','users.id')
-                // ->leftjoin('userpics','userpics.user_id','users.id')
                 ->leftjoin('addresses','addresses.a_id','users.id')
                 ->leftjoin('categories','categories.cat_id','portfolios.cat_id')
-                ->with(['portfolio.userpics'])
+                ->with(['userpics'])
                 ->get();
-        return $data;
+        return response()->json($data);
     }
 
     public function upload(Request $request)
@@ -129,5 +128,10 @@ class UserController extends Controller
         }
 
         return response()->json(['success', 'Your images has been successfully']);
+    }
+
+    public function update(Request $request)
+    {
+        return request()->all();
     }
 }

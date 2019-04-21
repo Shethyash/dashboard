@@ -18,9 +18,10 @@ class CreatePortfoliosTable extends Migration
             $table->integer('user_id');
             $table->integer('cat_id');
             $table->integer('a_id');
-            $table->string('profession');
-            $table->dateTime('birth_date');
-            $table->string('achievements');
+            $table->integer('userpic_id')->nullable();
+            $table->string('profession')->nullable();
+            $table->dateTime('birth_date')->nullable();
+            $table->string('achievements')->nullable();
             $table->timestamps();
         });
     }

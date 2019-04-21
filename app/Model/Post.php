@@ -9,7 +9,14 @@ use Kyslik\ColumnSortable\Sortable;
 class Post extends Model
 {
     protected $fillable = [
-        'user_id','desc_title','desc_content','created_at',
+        'user_id',
+        'desc_title',
+        'desc_content',
+    ];
+
+    public static $rules = [
+        'desc_title' => 'required',
+        'desc_content' => 'required'
     ];
 
     public $sortable = ['user_id','desc_title','desc_content','created_at'];

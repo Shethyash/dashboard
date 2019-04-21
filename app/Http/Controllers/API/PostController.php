@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 use App\Model\Post;
+use App\Model\Postfile;
 use App\User;
 use DB;
 use Illuminate\Http\Request;
@@ -11,7 +12,29 @@ class PostController extends Controller
 {
     public function create(Request $request)
     {
-        return $Request->all();
+        $prule = Post::$rules;
+        $validator = \Validator::make($request->all(),$prule);
+        if ($validator->fails()) {
+            return response($validator->errors(), 403);
+        }
+
+        $frule = Postfile::$rules;
+        $validator = \Validator::make($request->all(),$frule);
+        if ($validator->fails()) {
+            return response($validator->errors(), 403);
+        }
+
+        $new = Post::create($request->all());
+        $name = $request->file('file')->getClientOriginalName();
+        $ext = $request->file->extension();
+
+        if($new)
+        {
+            $request->file->move(public_path().'/uploads/postfiles', $name);
+            $pfile = Postfile::create(['post_id' => $new->id,'file_path' => $name,'file_type'=>$ext]);
+        }
+        
+        return response()->json('Post created ');
     }
     public function showpost($id)
     {

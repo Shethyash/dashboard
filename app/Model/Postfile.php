@@ -13,7 +13,6 @@ class Postfile extends Model
     ];
 
     public static $rules = [
-    	'post_id' => 'required',
     	'file' => 'required',
         'file.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
     ];

@@ -50,3 +50,4 @@ Route::get('event/upcome','API\EventController@upcomingevent');
 Route::post('participant/store','API\ParticipantController@store');
 Route::post('participant/accept','API\ParticipantController@accept');
 Route::post('/upload','API\UserController@upload');
+Route::post('createpost','API\PostController@create');

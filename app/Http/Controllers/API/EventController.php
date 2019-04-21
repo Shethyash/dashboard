@@ -28,7 +28,9 @@ class EventController extends Controller
         $new_address = Address::create($data);
         $data['a_id'] = $new_address->id;
 
-        $event = Event::create($data);
+        $event = new Event();
+
+        $event->create($data);
 
         return response()->json(['address' => $new_address,'event' => $data], 200);
     }

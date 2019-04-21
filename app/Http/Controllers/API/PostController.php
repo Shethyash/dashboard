@@ -9,6 +9,10 @@ use App\Http\Controllers\Controller;
 
 class PostController extends Controller
 {
+    public function create(Request $request)
+    {
+        return $Request->all();
+    }
     public function showpost($id)
     {
         $data = Post::where('user_id',$id)

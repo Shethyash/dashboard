@@ -9,6 +9,12 @@ class Userpic extends Model
     protected $fillable = [
     	'user_id',
     	'status',
-    	'file'
+    	'file',
+    	'type'
+    ];
+
+    public static $rules = [
+    	'file' => 'required',
+        'file.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
     ];
 }

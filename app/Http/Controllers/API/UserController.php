@@ -105,29 +105,28 @@ class UserController extends Controller
 
     public function upload(Request $request)
     {
-       $this->validate($request, [
-
-            'file' => 'required',
-            'file.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-
-        ]);
+        $rules = Userpic::$rules;
+        $validator = \Validator::make($request->all(),$rules);
+        if ($validator->fails()) {
+            return response($validator->errors(), 403);
+        }
         
         if($request->hasfile('file'))
-         {
-            foreach($request->file('file') as $image)
-            {
-                $name=$image->getClientOriginalName();
-                $image->move(public_path().'/upload/profile', $name);  
-                $data = $name;  
-            }
-         }
-
-         $form= new Userpic();
-         $form->user_id=$request->user_id;
-         $form->status= $request->status;
-         $form->file=json_encode($data);
-         
-        $form->save();
+        {
+            $name = $request->file('file')->getClientOriginalName();
+            $ext = $request->file->extension();
+            $request->file->move(public_path().'/uploads/profile', $name);
+            $form = new Userpic();
+            $form->user_id = $request->user_id;
+            $form->status = $request->status;
+            $form->file = $name;
+            $form->type = $ext;
+            $form->save();
+        }
+        else
+        {
+            return response()->json(['Image not Uploaded']);
+        }
 
         return response()->json(['success', 'Your images has been successfully']);
     }

@@ -15,7 +15,7 @@ class Post extends Model
     ];
 
     public static $rules = [
-        'desc_title' => 'required',
+        // 'desc_title' => 'required',
         'desc_content' => 'required'
     ];
 

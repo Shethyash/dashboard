@@ -52,6 +52,7 @@ Route::get('gallary/{id}','API\UserpicsController@index');
 Route::get('showpost/{id}','API\PostController@showuserpost');
 Route::get('showuserfollowpost/{id}','API\PostController@showuserfollowpost');
 Route::post('createpost','API\PostController@create');
+Route::get('allpost','API\PostController@allpost');
 
 // user
 Route::get('userfollowers/{id}','API\UserController@userFollowers');

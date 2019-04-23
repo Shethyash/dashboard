@@ -19,10 +19,6 @@ class UsersController extends Controller
                                             array("title"=>"Home","link"=>"/","active"=>""),
                                             array("title"=>"User List","link"=>"user","active"=>"active")
                             ));
-        // $user = User::find(1)->post;
-       
-        // return $user;
-        // return $breadcrumb;
         return view('user.ListUser',['users' => $user,'breadcrumb' => $breadcrumb]);
     }
 
@@ -33,7 +29,13 @@ class UsersController extends Controller
      */
     public function create()
     {
-        //
+        $breadcrumb = array( "title"=>"Add New User",
+                             "pages"=>array( 
+                                            array("title"=>"Home","link"=>"/","active"=>""),
+                                            array("title"=>"User List","link"=>"user","active"=>""),
+                                            array("title"=>"Add New User","link"=>"adduser","active"=>"active"))
+                            );
+
     }
 
     /**

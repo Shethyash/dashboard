@@ -73,4 +73,21 @@ class PostController extends Controller
     	}
     	return response()->json(['posts' => $data,'msg'=>'success'],200);
     }
+
+    public function allpost()
+    {
+        $data = Post::with(['like'=> function($query){
+                    $query->select('like_id','post_id','like_from','status');
+                    $query->orderBy('created_at','desc');
+                }])
+                ->withCount('like')
+                ->with(['comment' => function($query){
+                    $query->select('cmt_id','post_id','cmt_from','cmt_desc','cmt_status');
+                    $query->orderBy('created_at','desc');
+                }])
+                ->withCount('comment')
+                ->with('postfile')
+                ->get();
+        return response()->json(['posts'=>$data],200);
+    }
 }

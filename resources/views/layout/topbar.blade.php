@@ -23,7 +23,7 @@
                         <span class="logo-text">
                              <!-- dark Logo text -->
                              <!-- <img src="{{ asset('assets/images/logo-text.png') }}" alt="homepage" class="light-logo" /> -->
-                                <!--  -->Artisry
+                                <!--  -->Artistry
                         </span>
                         <!-- Logo icon -->
                         <!-- <b class="logo-icon"> -->

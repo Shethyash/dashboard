@@ -13,7 +13,7 @@
             <div class="auth-box bg-dark border-top border-secondary">
                 <div id="loginform">
                     <div class="text-center p-t-20 p-b-20">
-                        <span class="db"><h2 class="text-white">Artitry Admin Login</h2></span>
+                        <span class="db"><h2 class="text-white">Artistry Admin Login</h2></span>
                     </div>
                     <!-- Form -->
                     <form class="form-horizontal m-t-20"  action="{{ route('login') }}" method="post" id="loginform" >

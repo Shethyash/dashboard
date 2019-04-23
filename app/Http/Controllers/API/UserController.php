@@ -115,7 +115,7 @@ class UserController extends Controller
         
         if($request->hasfile('file'))
         {
-            $name = $request->file('file')->getClientOriginalName();
+            $name = time().$request->file('file')->getClientOriginalName();
             $ext = $request->file->extension();
             $request->file->move(public_path().'/uploads/profile', $name);
             $form = new Userpic();

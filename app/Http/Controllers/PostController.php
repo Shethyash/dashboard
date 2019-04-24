@@ -14,8 +14,14 @@ class PostController extends Controller
      */
     public function index()
     {
-        $post = Post::get();
+        $breadcrumb = array( "title"=>"List Users",
+                             "pages"=>array( 
+                                            array("title"=>"Home","link"=>"/","active"=>""),
+                                            array("title"=>"Post List","link"=>"post","active"=>"active")
+                            ));
+        $post = Post::withCount('comment')->withCount('like')->get();
         return $post;
+        return view('user.ListUser',['posts' => $post,'breadcrumb' => $breadcrumb]);
     }
 
     /**

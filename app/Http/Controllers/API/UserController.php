@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Validator;
 use App\User; 
 use App\Model\Userpic;
+use App\Model\Portfolio;
+use App\Model\Address;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth; 
-use Validator;
 
 class UserController extends Controller
 {
@@ -113,7 +115,7 @@ class UserController extends Controller
         
         if($request->hasfile('file'))
         {
-            $name = $request->file('file')->getClientOriginalName();
+            $name = time().$request->file('file')->getClientOriginalName();
             $ext = $request->file->extension();
             $request->file->move(public_path().'/uploads/profile', $name);
             $form = new Userpic();
@@ -133,6 +135,33 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
-        return request()->all();
+        // $input = $request->all();
+        // return $input;
+        $data = User::where('id',$request->user_id)
+                ->update(['first_name'=>$request->first_name,
+                          'last_name'=>$request->last_name,
+                          'mobile_no'=>$request->mobile_no]);
+
+        $pfdata = Portfolio::where('pf_id',$request->pf_id)
+                ->update(['profession'=>$request->profession,
+                          'birth_date'=>$request->birth_date,
+                          'achievements'=>$request->achievements]);
+
+        $adata = Address::where('a_id',$request->a_id)
+                ->update(['address_line1'=>$request->address_line1,
+                          'address_line2'=>$request->address_line2,
+                          'city'=>$request->city,
+                          'state'=>$request->state,
+                          'pin_code'=>$request->pin_code,
+                          'country'=>$request->country]);
+        
+        if($adata && $pfdata  && $data)
+        {
+            return response()->json('data update successfully');
+        }
+        else
+        {
+            return response()->json('data not updated successfully');
+        }
     }
 }

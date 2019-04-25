@@ -43,7 +43,7 @@ class EventController extends Controller
     			->leftjoin('addresses','events.a_id','addresses.a_id')
     			->orderBy('events.created_at','desc')
     			->get();
-    	return response()->json(['event' => $data], 403);
+    	return response()->json($data);
     }	
 
     public function participantlist($eventid)
@@ -57,13 +57,13 @@ class EventController extends Controller
     			}])
     			->withCount('participant')
     			->get();
-    	return response()->json([$data]);
+    	return response()->json($data);
     }
 
     public function upcomingevent()
     {
     	$date = Carbon::now();
     	$data = Event::all()->where('event_time','>',$date);
-    	return response()->json([$data]);
+    	return response()->json($data);
     }
 }

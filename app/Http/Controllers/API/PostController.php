@@ -38,7 +38,9 @@ class PostController extends Controller
     }
     public function showpost($id)
     {
-        $data = Post::where('user_id',$id)
+        $data = Post::where('posts.user_id',$id)
+                ->select('post_id','posts.user_id','desc_title','desc_content','posts.created_at',
+                'first_name','last_name','file')
                 ->with(['like'=> function($query){
                     $query->select('like_id','post_id','like_from','status');
                     $query->orderBy('created_at','desc');
@@ -50,6 +52,11 @@ class PostController extends Controller
                 }])
                 ->withCount('comment')
                 ->with('postfile')
+                ->leftjoin('users','users.id','posts.user_id')
+                ->leftJoin('userpics', function($join) {
+                  $join->on('posts.user_id', '=', 'userpics.user_id');
+                  $join->where('userpics.status',1);
+                })
                 ->get();
         return $data;
     }
@@ -61,7 +68,7 @@ class PostController extends Controller
     	{
     		return response()->json(['msg'=>'not found any data'],404);
     	}
-    	return response()->json(['posts' => $data,'msg'=>'success'],200);
+    	return response()->json($data);
     }
 
     public function showuserfollowpost($id)
@@ -71,12 +78,14 @@ class PostController extends Controller
     	foreach ($follow as $key) {
             array_push($data,$this->showpost($key->follow_to));
     	}
-    	return response()->json(['posts' => $data,'msg'=>'success'],200);
+    	return response()->json($data);
     }
 
     public function allpost()
     {
-        $data = Post::with(['like'=> function($query){
+        $data = Post::select('post_id','posts.user_id','desc_title','desc_content','posts.created_at',
+                'first_name','last_name','file')
+                ->with(['like'=> function($query){
                     $query->select('like_id','post_id','like_from','status');
                     $query->orderBy('created_at','desc');
                 }])
@@ -87,7 +96,13 @@ class PostController extends Controller
                 }])
                 ->withCount('comment')
                 ->with('postfile')
+                ->leftjoin('users','users.id','posts.user_id')
+                ->leftJoin('userpics', function($join) {
+                  $join->on('posts.user_id', '=', 'userpics.user_id');
+                  $join->where('status',1);
+                })
+                // ->leftjoin('userpics','userpics.user_id','users.id')->where('status',1)
                 ->get();
-        return response()->json(['posts'=>$data],200);
+        return response()->json($data);
     }
 }
